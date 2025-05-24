@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Profile | Classroom Navigation Assistant</title>
+  <link rel="stylesheet" href="profile.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+
+  <nav class="top-navbar">
+    <ul>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="announcement.html">Announcement</a></li>
+      <li><a href="message.html">Message</a></li>
+    </ul>
+  </nav>
+
+
+  <section class="profile-card">
+    <form class="profile-form">
+      <div class="avatar-wrapper">
+        <img src="images/user-avatar.png" alt="User Avatar" class="avatar" />
+        <label for="upload-avatar" class="visually-hidden">Upload Avatar</label>
+        <input type="file" id="upload-avatar" accept="image/*" title="Upload Avatar" />
+        <button type="button" id="remove-avatar" class="remove-avatar-btn">Remove Avatar</button>
+
+      </div>
+
+      <label for="full-name">Full Name</label>
+      <input type="text" id="full-name" name="full-name"/>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email"/>
+
+      <label for="id-number">ID Number</label>
+      <input type="text" id="id-number" name="id-number"/>
+
+      <label for="year">Year Level</label>
+      <select id="year" name="year">
+        <option selected>1st Year</option>
+        <option>2nd Year</option>
+        <option>3rd Year</option>
+        <option>4th Year</option>
+      </select>
+
+      <button type="submit" class="edit-btn">Save Changes</button>
+    </form>
+  </section>
+
+  <nav class="bottom-navbar">
+    <ul>
+      <li><a href="home.html">Home</a></li>   
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="navigation.html">Navigation</a></li>
+      <li><a href="task.html">Task</a></li>
+    </ul>
+  </nav>
+    <div class="darkBtn"><i onclick="toggleDarkMode()" class="fa-solid fa-circle-half-stroke"></i></div>
+</body>
+<script>
+    function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+         window.toggleDarkMode = toggleDarkMode;
+  const form = document.querySelector('.profile-form');
+
+  // Load saved profile data from localStorage on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    const fields = ['full-name', 'email', 'id-number', 'year'];
+    fields.forEach(field => {
+      const savedValue = localStorage.getItem(field);
+      if (savedValue) {
+        if (field === 'year') {
+          document.getElementById(field).value = savedValue;
+        } else {
+          document.getElementById(field).value = savedValue;
+        }
+      }
+    });
+  });
+
+  // Save data to localStorage on form submission
+  form.addEventListener('submit', (e) => {
+    e.preventDefault(); // Prevent page reload
+    const fields = ['full-name', 'email', 'id-number', 'year'];
+    fields.forEach(field => {
+      const value = document.getElementById(field).value;
+      localStorage.setItem(field, value);
+    });
+    alert('Profile changes saved!');
+  });
+
+   const avatarInput = document.getElementById('upload-avatar');
+  const avatarImg = document.querySelector('.avatar');
+  const removeAvatarBtn = document.getElementById('remove-avatar');
+  const defaultAvatar = 'images/user-avatar.png';
+
+  avatarInput.addEventListener('change', () => {
+    const file = avatarInput.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        avatarImg.src = reader.result;
+        localStorage.setItem('user-avatar', reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  const savedAvatar = localStorage.getItem('user-avatar');
+  if (savedAvatar) {
+    avatarImg.src = savedAvatar;
+  }
+
+  avatarInput.addEventListener('change', () => {
+    const file = avatarInput.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        avatarImg.src = reader.result;
+        localStorage.setItem('user-avatar', reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  removeAvatarBtn.addEventListener('click', () => {
+    avatarImg.src = defaultAvatar;
+    localStorage.removeItem('user-avatar');
+  });
+
+</script>
+
+</html>

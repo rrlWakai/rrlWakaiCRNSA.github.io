@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BSIT 1-A Schedule</title>
+  <link rel="stylesheet" href="schedule.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <nav class="top-navbar">
+    <ul>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="announcement.html">Announcement</a></li>
+      <li><a href="message.html">Message</a></li>
+    </ul>
+</nav>
+
+  <header>
+    <h1>BSIT 1-A Class Schedule</h1>
+    <p>Stay updated with your real-time class schedule</p>
+    <div id="current-time" class="current-time"></div>
+  </header>
+
+  <main id="schedule-container">
+    <!-- Schedule will be rendered here -->
+  </main>
+
+  <nav class="bottom-navbar">
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="schedule.html" class="active">Schedule</a></li>
+      <li><a href="navigation.html">Navigation</a></li>
+      <li><a href="task.html">Task</a></li>
+    </ul>
+  </nav>
+  <div class="darkBtn"><i onclick="toggleDarkMode()" class="fa-solid fa-circle-half-stroke"></i></div>
+  <script>
+      function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+         window.toggleDarkMode = toggleDarkMode;
+    const scheduleData = {
+  Monday: [
+    { subject: "Art Appreciation", timeStart: "07:00", timeEnd: "08:00", instructor: "", room: "GEC 106 | LEC 6" },
+    { subject: "Filipino sa Iba’t Ibang Disiplina", timeStart: "09:00", timeEnd: "11:00", instructor: "", room: "FILDIS | LEC 12, LEC 7" },
+    { subject: "Discrete Mathematics", timeStart: "11:00", timeEnd: "12:00", instructor: "", room: "ITEP 102 | LEC 3" },
+    { subject: "Purposive Communication", timeStart: "01:00", timeEnd: "02:00", instructor: "", room: "GEC 105 | LEC 8" },
+    { subject: "Human Computer Interaction", timeStart: "03:00", timeEnd: "06:00", instructor: "", room: "ITEP 101 | LAB 5" }
+  ],
+  Tuesday: [
+    { subject: "Intermediate Programming", timeStart: "07:00", timeEnd: "09:00", instructor: "", room: "ITEP 103 | LEC 8" },
+    { subject: "Human Computer Interaction", timeStart: "11:00", timeEnd: "12:00", instructor: "", room: "ITEP 101 | LEC 5" },
+    { subject: "Purposive Communication", timeStart: "12:00", timeEnd: "01:00", instructor: "", room: "GEC 105 | LEC 8" },
+    { subject: "Discrete Mathematics", timeStart: "01:00", timeEnd: "02:00", instructor: "", room: "ITEP 102 | LEC 5" },
+    { subject: "Life, Works, and Writings of Rizal", timeStart: "04:00", timeEnd: "06:00", instructor: "", room: "PI 100 | LEC 1" }
+  ],
+  Wednesday: [
+    { subject: "Intermediate Programming", timeStart: "07:00", timeEnd: "09:00", instructor: "", room: "ITEP 103 | LAB 3" },
+    { subject: "Human Computer Interaction", timeStart: "11:00", timeEnd: "01:00", instructor: "", room: "ITEP 101 | LEC 8" },
+    { subject: "Discrete Mathematics", timeStart: "01:00", timeEnd: "02:00", instructor: "", room: "ITEP 102 | LEC 3" },
+    { subject: "Art Appreciation", timeStart: "02:00", timeEnd: "03:00", instructor: "", room: "GEC 106 | LEC 3" },
+    { subject: "Filipino sa Iba’t Ibang Disiplina", timeStart: "04:00", timeEnd: "06:00", instructor: "", room: "FILDIS | LEC 4" }
+  ],
+  Thursday: [
+    { subject: "Art Appreciation", timeStart: "11:00", timeEnd: "12:00", instructor: "", room: "GEC 106 | LEC 2" },
+    { subject: "Life, Works, and Writings of Rizal", timeStart: "12:00", timeEnd: "01:00", instructor: "", room: "PI 100 | LEC 3" },
+    { subject: "Purposive Communication", timeStart: "01:00", timeEnd: "02:00", instructor: "", room: "GEC 105 | LEC 5" },
+    { subject: "Exercise-based Fitness Activities", timeStart: "03:00", timeEnd: "04:00", instructor: "", room: "PATHFIT 2 | GYM" }
+  ],
+  Sunday: [
+    { subject: "CWTS 2", timeStart: "07:00", timeEnd: "12:00", instructor: "", room: "NSTP 2" }
+  ]
+};
+
+
+function displaySchedule() {
+  const container = document.getElementById("schedule-container");
+  container.innerHTML = ""; // Clear previous
+
+  Object.entries(scheduleData).forEach(([day, subjects]) => {
+    const daySection = document.createElement("section");
+    daySection.className = "schedule-day";
+
+    const dayTitle = document.createElement("h2");
+    dayTitle.textContent = day;
+    daySection.appendChild(dayTitle);
+
+    subjects.forEach((subj) => {
+      const subjectDiv = document.createElement("div");
+      subjectDiv.className = "subject";
+
+      subjectDiv.innerHTML = `
+        <h3>${subj.subject}</h3>
+        <p><strong>Time:</strong> ${subj.timeStart} - ${subj.timeEnd}</p>
+        <p><strong>Instructor:</strong> ${subj.instructor}</p>
+        <p><strong>Room:</strong> ${subj.room}</p>
+      `;
+
+      daySection.appendChild(subjectDiv);
+    });
+
+    container.appendChild(daySection);
+  });
+}
+
+function updateCurrentTime() {
+  const currentTimeEl = document.getElementById("current-time");
+  const now = new Date();
+
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  };
+  currentTimeEl.textContent = now.toLocaleString(undefined, options);
+}
+
+function highlightCurrentClass() {
+  const now = new Date();
+  const dayName = now.toLocaleDateString(undefined, { weekday: "long" });
+  const subjects = scheduleData[dayName];
+  if (!subjects) return;
+
+  const timeNow = now.getHours() * 60 + now.getMinutes(); // current time in minutes from midnight
+
+  const container = document.getElementById("schedule-container");
+  const daySections = container.getElementsByClassName("schedule-day");
+
+  Array.from(daySections).forEach((daySection) => {
+    if (daySection.querySelector("h2").textContent === dayName) {
+      // Highlight current class only in today's section
+      const subjectDivs = daySection.getElementsByClassName("subject");
+      Array.from(subjectDivs).forEach((div, idx) => {
+        const subj = subjects[idx];
+
+        // Convert start/end times to minutes
+        const [startH, startM] = subj.timeStart.split(":").map(Number);
+        const [endH, endM] = subj.timeEnd.split(":").map(Number);
+        const startMinutes = startH * 60 + startM;
+        const endMinutes = endH * 60 + endM;
+
+        if (timeNow >= startMinutes && timeNow <= endMinutes) {
+          div.classList.add("active");
+        } else {
+          div.classList.remove("active");
+        }
+      });
+    } else {
+      // Remove highlights from other days
+      const subjectDivs = daySection.getElementsByClassName("subject");
+      Array.from(subjectDivs).forEach((div) => div.classList.remove("active"));
+    }
+  });
+}
+
+function refresh() {
+  updateCurrentTime();
+  highlightCurrentClass();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  displaySchedule();
+  refresh();
+  setInterval(refresh, 1000);
+});
+
+  </script>
+</body>
+</html>

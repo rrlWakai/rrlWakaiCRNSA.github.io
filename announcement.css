@@ -1,0 +1,139 @@
+
+@import url('schedule.css');
+
+.announcement-section {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 100px;
+}
+
+#announcement-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #1a1a2e;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+#announcement-input {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    background: #141a23;
+    color: #fff;
+    resize: none;
+    font-size: 1rem;
+}
+
+#announcement-form button {
+    padding: 10px;
+    background-color: #38f9d7;
+    color: #141a23;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#announcement-form button:hover {
+    background-color: #0ff;
+}
+
+#announcement-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#announcement-list li {
+    background: #1a1a2e;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border-left: 4px solid #38f9d7;
+    color: #a0aec0;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+    word-wrap: break-word;
+}
+
+.announcement-section input {
+    padding: 10px;
+    border-radius: 8px;
+    background: #141a23;
+    color: #fff;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.selection-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    justify-content: center;
+}
+
+.selection-controls button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #141a23;
+    background-color: #38f9d7;
+    transition: background 0.3s;
+}
+
+.darkBtn {
+  position: absolute;
+  bottom: 2em;
+  right: 2em;
+  font-size: 1em;
+  background: rgb(1, 7, 7);
+  border: rgb(37, 204, 216);
+  border-radius: 50px;
+  color: #e9e9e9;
+  z-index: 1;
+  cursor: pointer;
+}
+.selection-controls button:hover {
+    background-color: #0ff;
+}
+
+.hidden {
+    display: none;
+}
+
+li.selected {
+    border: 2px solid #0ff;
+    background: rgba(0, 255, 255, 0.1);
+}
+
+body.dark-mode {
+  background: #0a0e15;
+  color: #f5f5f5;
+}
+
+body.dark-mode .top-navbar,
+body.dark-mode .bottom-navbar,
+body.dark-mode .info-box,
+body.dark-mode .next-box {
+  background-color: #272525a0;
+  border-color: #0e2084;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.397);
+}
+
+body.dark-mode a,
+body.dark-mode .toggle,
+body.dark-mode button {
+  color: #a0aec0;
+  border-color: #03037366;
+}
+
+body.dark-mode button:hover {
+  background-color: #00c8ff33;
+}

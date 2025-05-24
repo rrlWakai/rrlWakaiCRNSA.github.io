@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Message - Group Chats</title>
+  <link rel="stylesheet" href="message.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <!-- Top Navbar -->
+  <nav class="top-navbar">
+    <ul>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="announcement.html">Announcement</a></li>
+      <li><a href="message.html" class="active">Message</a></li>
+    </ul>
+  </nav>
+
+  <!-- Header -->
+  <header>
+    <h1>MESSAGE</h1>
+  </header>
+
+  <!-- Main Content -->
+   <main class="chat-container">
+  <!-- Chat List -->
+  <aside id="chatList" class="chat-list">
+    <ul>
+      <li onclick="openChat('programming', 'ITEP-101')">ITEP- 101</li>
+      <li onclick="openChat('math', 'DISCRETE MATHEMATICS')">DISCRETE MATHEMATICS</li>
+      <li onclick="openChat('physics', 'PATHFITH')">PATHFIT 2</li>
+      <li onclick="openChat('english', 'PURPOSIVE COMMUNICATION')">PURPOSIVE COMMUNICATION</li>
+      <li onclick="openChat('lab', 'ITEC-103')">ITEC-103</li>
+    </ul>
+  </aside>
+
+  <!-- Chat Box -->
+  <section id="chatBox" class="chat-box hidden">
+    <div class="chat-header">
+      <button onclick="goBack()" class="back-btn">⬅</button>
+      <h2 id="chatSubject">Chat</h2>
+    </div>
+
+    <div id="chat-messages"></div>
+
+    <form onsubmit="sendMessage(event)" class="chat-form">
+      <input type="text" id="username-input" placeholder="Your name..." required />
+      <input type="text" id="message-input" placeholder="Type a message..." required />
+      <button type="submit">Send</button>
+    </form>
+
+    <button onclick="clearChat()" class="clear-btn">Clear Chat</button>
+  </section>
+</main>
+
+
+  <!-- Bottom Navbar -->
+  <nav class="bottom-navbar">
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="navigation.html">Navigation</a></li>
+      <li><a href="task.html">Task</a></li>
+    </ul>
+  </nav>
+  <div class="darkBtn"><i onclick="toggleDarkMode()" class="fa-solid fa-circle-half-stroke"></i></div>
+  <!-- JavaScript -->
+  <script>
+      function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+         window.toggleDarkMode = toggleDarkMode;
+
+   function openChat(subject, name) {
+  currentChat = subject;
+  document.getElementById('chatSubject').textContent = name;
+
+  document.getElementById('chatList').classList.add('hidden');
+  document.getElementById('chatBox').classList.remove('hidden');
+
+  loadMessages();
+}
+function goBack() {
+  document.getElementById('chatList').classList.remove('hidden');
+  document.getElementById('chatBox').classList.add('hidden');
+}
+
+
+    
+  function setActiveChat(subject) {
+    const chatItems = document.querySelectorAll(".chat-list li");
+    chatItems.forEach(li => {
+      li.classList.remove("active");
+      if (li.textContent.toLowerCase().replace(/\s+/g, '') === subject) {
+        li.classList.add("active");
+      }
+    });
+  }
+
+    function loadMessages() {
+      const messages = JSON.parse(localStorage.getItem(currentChat)) || [];
+      const chatBox = document.getElementById("chat-messages");
+      chatBox.innerHTML = messages.map((msg, index) => `
+        <div class="message">
+          <div class="meta">
+            <strong>${msg.user}</strong> <small>${msg.time}</small>
+          </div>
+          <div class="text">${msg.text}</div>
+          <button onclick="deleteMessage(${index})" class="delete-btn">🗑️</button>
+        </div>
+      `).join("");
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function sendMessage(e) {
+      e.preventDefault();
+      const user = document.getElementById("username-input").value.trim();
+      const text = document.getElementById("message-input").value.trim();
+      const time = new Date().toLocaleString();
+
+      if (!text || !user) return;
+
+      const messages = JSON.parse(localStorage.getItem(currentChat)) || [];
+      messages.push({ user, text, time });
+      localStorage.setItem(currentChat, JSON.stringify(messages));
+
+      document.getElementById("message-input").value = "";
+      loadMessages();
+    }
+
+    function deleteMessage(index) {
+      const messages = JSON.parse(localStorage.getItem(currentChat)) || [];
+      messages.splice(index, 1);
+      localStorage.setItem(currentChat, JSON.stringify(messages));
+      loadMessages();
+    }
+
+    function clearChat() {
+      if (confirm("Are you sure you want to clear the entire chat?")) {
+        localStorage.removeItem(currentChat);
+        loadMessages();
+      }
+    }
+
+    window.onload = loadMessages;
+  </script>
+</body>
+</html>

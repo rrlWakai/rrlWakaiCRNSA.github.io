@@ -1,0 +1,234 @@
+/* Use your base reset and colors from your reference */
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background:#141a23;
+  color: #ffffff;
+  line-height: 1.6;
+  padding: 16px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Top Navbar */
+
+.top-navbar {
+  width: 100%;
+  background: rgba(32, 34, 44, 0.9);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 50px;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.top-navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.top-navbar a {
+  text-decoration: none;
+  color: #a0aec0;
+  font-weight: bold;
+  font-size: 0.95rem;
+  padding: 8px 12px;
+  border-radius: 20px;
+  transition: background 0.3s, color 0.3s;
+}
+
+.top-navbar a:hover {
+  background: rgba(0, 255, 255, 0.1);
+  color: rgba(0,229,255,0.15);
+}
+
+/* Header Styling */
+header {
+  text-align: center;
+  background: #1a1a2e;
+  border-radius: 18px;
+  padding: 20px 15px;
+  margin-bottom: 40px;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+header h1 {
+  font-size: 1.4rem;
+  color:#38f9d7 ;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 1rem;
+  color: #a0aec0;
+}
+
+/* Navbar */
+.bottom-navbar {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 40px;
+ 
+  padding: 8px 20px;
+  z-index: 1000;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+  width: 90%;
+  max-width: 360px;
+}
+.darkBtn {
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+  font-size: 1em;
+  background: rgb(1, 7, 7);
+  border: 1px solid rgb(37, 204, 216);
+  border-radius: 50px;
+  color: #e9e9e9;
+  z-index: 1001;
+  cursor: pointer;
+}
+.bottom-navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.bottom-navbar a {
+  text-decoration: none;
+  color: #a0aec0;
+  font-size: 0.95rem;
+  font-weight: bold;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.bottom-navbar a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #0ff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease-out;
+}
+
+.bottom-navbar a:hover {
+  color: rgba(0,229,255,0.15);
+}
+
+.bottom-navbar a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.current-time {
+  font-size: 1.1rem;
+  color: #0ff;
+  margin: 10px 0 20px;
+  text-align: center;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.current-class {
+  font-size: 1rem;
+  color: #38f9d7;
+  margin-top: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+
+#schedule-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto 80px;
+}
+
+.schedule-day {
+  background: #1a1a2e;
+  border-radius: 18px;
+  margin-bottom: 24px;
+  padding: 15px 20px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.schedule-day h2 {
+  color: #38f9d7;
+  margin-bottom: 12px;
+}
+
+.subject {
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  transition: background 0.3s;
+}
+
+.subject.active {
+  background: rgba(0, 255, 255, 0.4);
+  border-color: #0ff;
+  color: #000;
+  font-weight: bold;
+}
+
+.subject h3 {
+  margin-bottom: 6px;
+  font-size: 1.1rem;
+}
+
+.subject p {
+  font-size: 0.9rem;
+  color: #a0aec0;
+  margin-bottom: 4px;
+}
+
+body.dark-mode {
+  background: #0a0e15;
+  color: #f5f5f5;
+}
+
+body.dark-mode .top-navbar,
+body.dark-mode .bottom-navbar,
+body.dark-mode .info-box,
+body.dark-mode .next-box {
+  background-color: #272525a0;
+  border-color: #0e2084;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.397);
+}
+
+body.dark-mode a,
+body.dark-mode .toggle,
+body.dark-mode button {
+  color: #a0aec0;
+  border-color: #03037366;
+}
+
+body.dark-mode button:hover {
+  background-color: #00c8ff33;
+}

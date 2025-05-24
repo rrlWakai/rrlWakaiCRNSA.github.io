@@ -1,0 +1,264 @@
+@import url(schedule.css);
+/* Layout */
+.chat-container {
+  display: flex;
+  flex: 1;
+  padding: 16px;
+  gap: 16px;
+  max-width: 1000px;
+
+}
+
+.chat-list {
+  width: 25%;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.chat-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.chat-list li {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  color: #38f9d7;
+}
+.chat-list li.active {
+  background: rgba(13, 240, 240, 0.2);
+  color: #ffffff;
+  font-weight: bold;
+  border-left: 4px solid #00e5ff;
+}
+
+
+.chat-list li:hover {
+  background: rgba(0, 255, 255, 0.05);
+}
+
+.chat-box {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+/* Messages */
+#chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.message {
+  background: #1a1a2e;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.1);
+  position: relative;
+}
+
+.message .meta {
+  font-size: 0.8rem;
+  color: #00e5ff;
+  margin-bottom: 5px;
+}
+
+.message .text {
+  font-size: 0.95rem;
+  color: #fff;
+}
+
+.delete-btn {
+  background: transparent;
+  color: #ff6b6b;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
+
+/* Form */
+.chat-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.chat-form input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #2c2f4a;
+  color: #fff;
+  min-width: 120px;
+}
+
+.chat-form button {
+  padding: 10px 20px;
+  background: #38f9d7;
+  color: #141a23;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Clear Chat */
+.clear-btn {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+}
+.hidden {
+  display: none;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #00e5ff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.chat-header h2 {
+  color: #00e5ff;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.bottom-navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.bottom-navbar a {
+  text-decoration: none;
+  color: #a0aec0;
+  font-size: 0.95rem;
+  font-weight: bold;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.bottom-navbar a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #0ff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease-out;
+}
+
+.bottom-navbar a:hover {
+  color: rgba(0,229,255,0.15);
+}
+
+.bottom-navbar a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+
+body.dark-mode {
+  background: #0a0e15;
+  color: #f5f5f5;
+}
+
+body.dark-mode .top-navbar,
+body.dark-mode .bottom-navbar,
+body.dark-mode .info-box,
+body.dark-mode .next-box {
+  background-color: #272525a0;
+  border-color: #0e2084;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.397);
+}
+
+body.dark-mode a,
+body.dark-mode .toggle,
+body.dark-mode button {
+  color: #a0aec0;
+  border-color: #03037366;
+}
+
+body.dark-mode button:hover {
+  background-color: #00c8ff33;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .chat-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .chat-list {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .chat-box {
+    width: 100%;
+    max-width: 600px;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+
+  .chat-list {
+    width: 50vh;
+  }
+
+  .chat-box {
+    width: 50vh;
+  }
+
+  .chat-form {
+    flex-direction: column;
+  }
+
+  .chat-form input, .chat-form button {
+    width: 100%;
+  }
+
+  .clear-btn {
+    width: 100%;
+  }
+}

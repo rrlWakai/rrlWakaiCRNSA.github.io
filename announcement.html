@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcement</title>
+    <link rel="stylesheet" href="announcement.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="top-navbar">
+        <ul>
+            <li><a href="profile.html">Profile</a></li>
+            <li><a href="announcement.html">Announcement</a></li>
+            <li><a href="message.html">Message</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Announcements</h1>
+        <p>Stay updated with the latest news and updates from your professors.</p>
+    </header>
+
+    <main class="announcement-section">
+        <form id="announcement-form">
+            <input id="name-input" type="text" placeholder="Your name" required>
+            <textarea id="announcement-input" placeholder="Enter announcement here..." required></textarea>
+            <button id="btn" type="submit">Add Announcement</button>
+        </form>
+
+         <div id="selection-controls" class="selection-controls hidden">
+        <button id="pin-btn">Pin</button>
+        <button id="edit-btn">Edit</button>
+        <button id="delete-btn">Delete</button>
+        <button id="cancel-selection-btn">Cancel</button>
+    </div>
+        <ul id="announcement-list"></ul>
+    </main>
+
+    <nav class="bottom-navbar">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="schedule.html">Schedule</a></li>
+            <li><a href="navigation.html">Navigation</a></li>
+            <li><a href="task.html">Task</a></li>
+        </ul>
+    </nav>
+  <div class="darkBtn"><i onclick="toggleDarkMode()" class="fa-solid fa-circle-half-stroke"></i></div>
+</body>
+<script>
+      function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+         window.toggleDarkMode = toggleDarkMode;
+
+ const form = document.getElementById('announcement-form');
+const input = document.getElementById('announcement-input');
+const nameInput = document.getElementById('name-input');
+const list = document.getElementById('announcement-list');
+const pinBtn = document.getElementById('pin-btn');
+const editBtn = document.getElementById('edit-btn');
+const deleteBtn = document.getElementById('delete-btn');
+const cancelBtn = document.getElementById('cancel-selection-btn');
+const selectionControls = document.getElementById('selection-controls');
+
+let announcements = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+    announcements = JSON.parse(localStorage.getItem('announcements')) || [];
+    renderAnnouncements();
+});
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    const name = nameInput.value.trim();
+    if (text && name) {
+        const newItem = {
+            id: Date.now(),
+            text,
+            name,
+            timestamp: new Date().toLocaleString(),
+            pinned: false
+        };
+        announcements.unshift(newItem);
+        saveAnnouncements();
+        renderAnnouncements();
+        input.value = '';
+    }
+});
+
+function renderAnnouncements() {
+    list.innerHTML = '';
+    announcements.forEach(item => {
+        const li = document.createElement('li');
+        li.dataset.id = item.id;
+        li.classList.toggle('selected', item.selected);
+
+        li.innerHTML = `<strong>${item.name}</strong> — <em>${item.timestamp}</em><br>${item.text}`;
+        if (item.pinned) {
+            li.style.borderLeft = '4px solid gold';
+        }
+
+        li.addEventListener('click', () => {
+            item.selected = !item.selected;
+            renderAnnouncements();
+            updateSelectionUI();
+        });
+
+        list.appendChild(li);
+    });
+}
+
+function saveAnnouncements() {
+    localStorage.setItem('announcements', JSON.stringify(announcements));
+}
+
+function updateSelectionUI() {
+    const selected = announcements.some(item => item.selected);
+    selectionControls.classList.toggle('hidden', !selected);
+}
+
+pinBtn.addEventListener('click', () => {
+    announcements.forEach(item => {
+        if (item.selected) {
+            item.pinned = true;
+            item.selected = false;
+        }
+    });
+    saveAnnouncements();
+    renderAnnouncements();
+    updateSelectionUI();
+});
+
+editBtn.addEventListener('click', () => {
+    const selectedItems = announcements.filter(item => item.selected);
+    if (selectedItems.length === 1) {
+        const newText = prompt("Edit the announcement text:", selectedItems[0].text);
+        if (newText !== null && newText.trim() !== '') {
+            selectedItems[0].text = newText.trim();
+        }
+    }
+    announcements.forEach(item => item.selected = false);
+    saveAnnouncements();
+    renderAnnouncements();
+    updateSelectionUI();
+});
+
+deleteBtn.addEventListener('click', () => {
+    announcements = announcements.filter(item => !item.selected);
+    saveAnnouncements();
+    renderAnnouncements();
+    updateSelectionUI();
+});
+
+cancelBtn.addEventListener('click', () => {
+    announcements.forEach(item => item.selected = false);
+    renderAnnouncements();
+    updateSelectionUI();
+});
+
+</script>
+</html>

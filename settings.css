@@ -1,0 +1,48 @@
+.settings-form {
+  background: #1a1a2e;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+  margin: 20px auto;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.settings-form label {
+  display: block;
+  margin-bottom: 15px;
+  color: #a0aec0;
+}
+
+.settings-form input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #38f9d7;
+  background: #141a23;
+  color: #fff;
+}
+
+.settings-form button {
+  background: #38f9d7;
+  color: #141a23;
+  font-weight: bold;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.settings-form button:hover {
+  background: #0ff;
+}
+
+.save-msg {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Classroom Navigation Assistant</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <header>
+    <h1>Welcome Back</h1>
+    <p>Log in to access your schedule and classroom tools</p>
+  </header>
+  
+  <section class="login-form">
+    <form id="loginForm">
+      
+      <label for="id-number">Student ID</label>
+      <input type="text" id="id-number" name="id-number" placeholder="Enter your ID" required />
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required />
+
+      <button type="submit" class="login-btn">Log In</button>
+    </form>
+  </section>
+<script>
+    
+    const loginForm = document.getElementById('loginForm');
+
+    loginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const id = document.getElementById('id-number').value;
+      const password = document.getElementById('password').value;
+
+        const adminUser = {
+        id: '0321-0654',
+        password: 'A0321-0654',
+      };
+
+      if (id === adminUser.id && password === adminUser.password) {
+        alert('Login successful!');
+        window.location.href = 'home.html';
+      } else {
+        alert('Invalid ID or password');
+      }
+    });
+  </script>
+</body>
+</html>

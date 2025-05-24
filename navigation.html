@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigation</title>
+  <link rel="stylesheet" href="navigation.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+</head>
+<body>
+  <nav class="top-navbar">
+    <ul>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="announcement.html">Announcement</a></li>
+      <li><a href="message.html">Message</a></li>
+    </ul>
+  </nav> 
+
+  <header>
+    <div class="clock" id="clock">--:--:--</div>
+  </header>
+
+  <div class="info-box" id="statusText">
+    <h2>Current Class</h2>
+    <p id="current-class">Loading...</p>
+    <span id="status" class="status">--</span>
+  </div>
+
+  <div class="next-box" id="next-info">
+    <h2>Next Class</h2>
+    <p id="next-class">Loading...</p>
+  </div>
+ 
+
+  <button onclick="markArrival()">✅ I've Arrived</button>
+   <p id="arrivalMessage"></p>
+
+  <nav class="bottom-navbar">
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="navigation.html">Navigation</a></li>
+      <li><a href="task.html">Task</a></li>
+    </ul>
+  </nav>
+
+  <div class="darkBtn"><i onclick="toggleDarkMode()" class="fa-solid fa-circle-half-stroke"></i></div>
+
+  <script>
+    const schedule = [
+      { day: 1, start: '07:00 AM', end: '08:00 AM', subject: 'Art Appreciation', room: 'GEC 106 | LEC 6', prof: '' },
+      { day: 1, start: '08:00 AM', end: '09:00 AM', subject: 'Filipino sa Iba’t Ibang Disiplina', room: 'FILDIS | LEC 12', prof: '' },
+      { day: 1, start: '09:00 AM', end: '10:00 AM', subject: 'Filipino sa Iba’t Ibang Disiplina', room: 'FILDIS | LEC 7', prof: '' },
+      { day: 1, start: '11:00 AM', end: '12:00 PM', subject: 'Discrete Mathematics', room: 'ITEP 102 | LEC 3', prof: '' },
+      { day: 1, start: '01:00 PM', end: '02:00 PM', subject: 'Purposive Communication', room: 'GEC 105 | LEC 8', prof: '' },
+      { day: 1, start: '03:00 PM', end: '04:00 PM', subject: 'Human Computer Interaction', room: 'ITEP 101 | LAB 5', prof: '' },
+      { day: 2, start: '07:00 AM', end: '08:00 AM', subject: 'Intermediate Programming', room: 'ITEP 103 | LEC 8', prof: '' },
+      { day: 2, start: '11:00 AM', end: '12:00 PM', subject: 'Human Computer Interaction', room: 'ITEP 101 | LEC 7', prof: '' },
+      { day: 2, start: '12:00 PM', end: '01:00 PM', subject: 'Purposive Communication', room: 'GEC 105 | LEC 8', prof: '' },
+      { day: 2, start: '01:00 PM', end: '02:00 PM', subject: 'Discrete Mathematics', room: 'ITEP 102 | LEC 5', prof: '' },
+      { day: 2, start: '04:00 PM', end: '05:00 PM', subject: 'Life, Works, and Writings of Rizal', room: 'PI 100 | LEC 1', prof: '' },
+      { day: 3, start: '07:00 AM', end: '09:00 AM', subject: 'Intermediate Programming', room: 'ITEP 103 | LAB 3', prof: '' },
+      { day: 3, start: '11:00 AM', end: '12:00 PM', subject: 'Human Computer Interaction', room: 'ITEP 101 | LEC 8', prof: '' },
+      { day: 3, start: '01:00 PM', end: '02:00 PM', subject: 'Discrete Mathematics', room: 'ITEP 102 | LEC 3', prof: '' },
+      { day: 3, start: '03:00 PM', end: '04:00 PM', subject: 'Art Appreciation', room: 'GEC 106 | LEC 3', prof: '' },
+      { day: 3, start: '04:00 PM', end: '05:00 PM', subject: 'Filipino sa Iba’t Ibang Disiplina', room: 'FILDIS | LEC 4', prof: '' },
+      { day: 4, start: '12:00 PM', end: '01:00 PM', subject: 'Life, Works, and Writings of Rizal', room: 'PI 100 | LEC 3', prof: '' },
+      { day: 4, start: '01:00 PM', end: '02:00 PM', subject: 'Purposive Communication', room: 'GEC 105 | LEC 5', prof: '' },
+      { day: 4, start: '04:00 PM', end: '05:00 PM', subject: 'Exercise-based Fitness Activities', room: 'PATHFIT 2 | GYM', prof: '' },
+      { day: 5, start: '07:00 AM', end: '08:00 AM', subject: 'Art Appreciation', room: 'GEC 106 | LEC 2', prof: '' },
+      { day: 7, start: '07:00 AM', end: '10:00 AM', subject: 'CWTS 2', room: 'NSTP 2', prof: '' }
+    ];
+
+    function parseTime(t) {
+      const [time, modifier] = t.split(' ');
+      let [hours, minutes] = time.split(':').map(Number);
+      if (modifier === 'PM' && hours !== 12) hours += 12;
+      if (modifier === 'AM' && hours === 12) hours = 0;
+      return hours * 60 + minutes;
+    }
+
+    function formatTime(minutes) {
+      let h = Math.floor(minutes / 60);
+      const m = minutes % 60;
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      return `${h}:${m.toString().padStart(2, '0')} ${ampm}`;
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      document.getElementById("clock").textContent = formatTime(hours * 60 + minutes);
+    }
+
+    function updateStatus() {
+      const now = new Date();
+      const today = now.getDay();
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      const todaySchedule = schedule.filter(s => s.day === today);
+
+      let current = null;
+      let next = null;
+
+      for (const s of todaySchedule) {
+        const start = parseTime(s.start);
+        const end = parseTime(s.end);
+        if (currentMinutes >= start && currentMinutes <= end) {
+          current = s;
+        } else if (currentMinutes < start && (!next || parseTime(next.start) > start)) {
+          next = s;
+        }
+      }
+
+      const currentText = document.getElementById('current-class');
+      const nextText = document.getElementById('next-class');
+      const statusText = document.getElementById('status');
+
+      if (current) {
+        const lateBy = currentMinutes - parseTime(current.start);
+        currentText.textContent = `You should now be in Room ${current.room} for ${current.subject}. (${current.start} - ${current.end})`;
+
+        if (lateBy > 5) {
+          statusText.textContent = `Late by ${lateBy} minutes`;
+          statusText.className = 'status late';
+          speak(`You are late for ${current.subject}. Hurry to room ${current.room}.`);
+        } else if (lateBy < 0) {
+          statusText.textContent = `Early by ${-lateBy} minutes`;
+          statusText.className = 'status early';
+        } else {
+          statusText.textContent = `On Time`;
+          statusText.className = 'status ontime';
+        }
+      } else {
+        currentText.textContent = 'No class currently ongoing.';
+        statusText.textContent = '--';
+        statusText.className = 'status';
+      }
+
+      if (next) {
+        nextText.textContent = `${next.subject} at ${next.start} in Room ${next.room}`;
+      } else {
+        nextText.textContent = 'No upcoming class today.';
+      }
+    }
+
+    function markArrival() {
+  const now = new Date();
+  const timeString = now.toLocaleTimeString();
+  localStorage.setItem('lastArrival', timeString);
+  document.getElementById('arrivalMessage').textContent = 'Arrival logged at ' + timeString;
+}
+    window.markArrival = markArrival;
+
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        const utter = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(utter);
+      }
+    }
+    window.speak = speak;
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+    window.toggleDarkMode = toggleDarkMode;
+
+    setInterval(() => {
+      updateClock();
+      updateStatus();
+    }, 1000);
+
+    updateClock();
+    updateStatus();
+  </script>
+</body>
+</html>

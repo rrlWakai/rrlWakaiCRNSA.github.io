@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Set Navigation Info</title>
+  <link rel="stylesheet" href="home.css" />
+  <link rel="stylesheet" href="settings.css" />
+</head>
+<body>
+  <nav class="top-navbar">
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="schedule.html">Schedule</a></li>
+      <li><a href="navigation.html">Navigation</a></li>
+    </ul>
+  </nav>
+
+  <header>
+    <h1>Classroom Settings</h1>
+    <p>Update room, location, professor, subject, and class time.</p>
+  </header>
+
+  <form id="settingsForm" class="settings-form">
+    <label>Room:
+      <input type="text" id="room" required />
+    </label>
+
+    <label>Location:
+      <input type="text" id="location" required />
+    </label>
+
+    <label>Professor:
+      <input type="text" id="professor" required />
+    </label>
+
+    <label>Subject:
+      <input type="text" id="subject" required />
+    </label>
+
+    <label>Class Time:
+      <input type="time" id="classTime" required />
+    </label>
+
+    <button type="submit">Save Settings</button>
+    <p id="saveMsg" class="save-msg"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById("settingsForm");
+    const saveMsg = document.getElementById("saveMsg");
+
+    // Load saved values if available
+    window.onload = () => {
+      document.getElementById("room").value = localStorage.getItem("room") || "";
+      document.getElementById("location").value = localStorage.getItem("location") || "";
+      document.getElementById("professor").value = localStorage.getItem("professor") || "";
+      document.getElementById("subject").value = localStorage.getItem("subject") || "";
+      document.getElementById("classTime").value = localStorage.getItem("classTime") || "";
+    };
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      localStorage.setItem("room", document.getElementById("room").value);
+      localStorage.setItem("location", document.getElementById("location").value);
+      localStorage.setItem("professor", document.getElementById("professor").value);
+      localStorage.setItem("subject", document.getElementById("subject").value);
+      localStorage.setItem("classTime", document.getElementById("classTime").value);
+
+      saveMsg.textContent = "✅ Settings saved!";
+      saveMsg.style.color = "#38f9d7";
+
+      setTimeout(() => {
+        saveMsg.textContent = "";
+        window.location.href = "navigation.html";
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
