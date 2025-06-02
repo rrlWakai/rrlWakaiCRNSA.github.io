@@ -6,11 +6,13 @@
   padding: 16px;
   gap: 16px;
   max-width: 1000px;
-
+  margin: 0 auto;
+  min-height: 80vh;
+  box-sizing: border-box;
 }
-
 .chat-list {
-  width: 25%;
+  width: 80%;
+  height: fit-content;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
   padding: 10px;
@@ -202,7 +204,7 @@ body.dark-mode {
 
 body.dark-mode .top-navbar,
 body.dark-mode .bottom-navbar,
-body.dark-mode .info-box,
+body.dark-mode .info-box,   
 body.dark-mode .next-box {
   background-color: #272525a0;
   border-color: #0e2084;
@@ -241,13 +243,14 @@ body.dark-mode button:hover {
 
 @media (max-width: 768px) {
 
-
   .chat-list {
-    width: 50vh;
+    width: 100%;
+    max-width: 400px;
   }
 
   .chat-box {
-    width: 50vh;
+    width: 100%;
+    max-width: 600px;
   }
 
   .chat-form {
